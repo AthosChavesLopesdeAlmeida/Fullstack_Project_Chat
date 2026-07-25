@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id String @id @default(cuid())
+  email String @unique
+  password String
+  name String
+  pfpUrl String?
+
+  createdAt DateTime @default(now())
+
+  // Contatos que EU adicionei
+  contacts Contact[] @relation("OwnerContacts")
+
+  // Contatos que me adicionaram
+  contactOf Contact[] @relation("ContactOfUser")
+
+  sentMessages Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessage")
+}
+
+model Contact {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // O dono da lista (quem adicionou)
+  ownerId String
+  owner User @relation("OwnerContacts", fields: [ownerId], references: [id])
+
+
+  // Contato adicionado
+  contactId String
+  contact User @relation("ContactOfUser", fields: [contactId], references: [id])
+
+  // Evita duplicação
+  @@unique([ownerId, contactId])
+}
+
+model Message {
+  id String @id @default(cuid())
+  content String
+  createdAt DateTime @default(now())
+  readAt DateTime?
+
+  senderId String
+  sender User @relation("SentMessages", fields: [senderId], references: [id])
+
+  receiverId String
+  receiver User @relation("ReceivedMessage", fields: [receiverId], references: [id])
+}
