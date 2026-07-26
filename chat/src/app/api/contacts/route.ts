@@ -6,7 +6,7 @@ import { getUserFromRequest } from "@/lib/auth";
 export async function GET (req: NextRequest) {
   const user = getUserFromRequest(req)
   if (!user) {
-    return NextResponse.json({message: 'Usuário não encontrado'}, {status: 401})
+    return NextResponse.json({message: 'Não autenticado'}, {status: 401})
   }
 
   const contacts = await prisma.contact.findMany({
@@ -37,7 +37,7 @@ export async function POST (req: NextRequest) {
   }
 
   if (contactUser.id === ownerId) {
-    return NextResponse.json({ error: "Você não pode adicionar a si mesmo como um contato" }, { status: 400 })
+    return NextResponse.json({ message: "Você não pode adicionar a si mesmo como um contato" }, { status: 400 })
   }
 
   try {

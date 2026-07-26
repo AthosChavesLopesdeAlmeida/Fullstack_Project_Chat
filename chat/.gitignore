@@ -43,6 +43,6 @@ next-env.d.ts
 /src/generated/prisma
 
 # user agent dirs
-/agents/
-/claude/
-/windsurf/
+chat\.windsurf
+chat\.claude
+chat\.agents
