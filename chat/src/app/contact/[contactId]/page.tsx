@@ -1,20 +1,22 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { useSocket } from '@/hooks/useSocket'
 import { useChat } from '@/hooks/useChat'
 import { apiFetch } from '@/lib/fetcher'
 import Link from 'next/link'
 
-const Page = ({ params }: { params: { contactId: string } }) => {
+const Page = ({ params }: { params: Promise<{ contactId: string }> }) => {
+  const { contactId } = use(params)
+
   const socketRef = useSocket()
   const [initialMessages, setInitialMessages] = useState([])
   const [currentUserId, setCurrentUserId] = useState<string | null>(null)
 
   useEffect(() => {
-    fetch(`/api/messages/${params.contactId}`)
+    fetch(`/api/messages/${contactId}`)
       .then((res) => res.json())
       .then(setInitialMessages)
-  }, [params.contactId])
+  }, [contactId])
 
   useEffect(() => {
     apiFetch('/api/me', { method: 'GET' }).then(({ ok, data }) => {
@@ -22,7 +24,7 @@ const Page = ({ params }: { params: { contactId: string } }) => {
     })
   }, [])
 
-  const { messages, sendMessage } = useChat(socketRef, params.contactId, initialMessages)
+  const { messages, sendMessage } = useChat(socketRef, contactId, initialMessages)
   const [input, setInput] = useState('')
 
   function handleSubmit() {

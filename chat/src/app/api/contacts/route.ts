@@ -10,9 +10,17 @@ export async function GET (req: NextRequest) {
   }
 
   const contacts = await prisma.contact.findMany({
-    where: {ownerId: user.userId, contactId: user.userId}
+    where: { ownerId: user.userId },
+    include: { contact: true }
   })
-  return NextResponse.json(contacts, {status: 200})
+
+  const formatted = contacts.map((c) => ({
+    id: c.contact.id,
+    name: c.contact.name,
+    pfp: c.contact.pfpUrl
+  }))
+
+  return NextResponse.json(formatted, {status: 200})
 }
 
 export async function POST (req: NextRequest) {

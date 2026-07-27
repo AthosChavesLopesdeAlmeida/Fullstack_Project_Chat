@@ -12,7 +12,7 @@ const Page = () => {
     e.preventDefault()
     const {ok, data} = await apiFetch('/api/contacts', {
       method: 'POST',
-      body: JSON.stringify({email})
+      body: JSON.stringify({ contactEmail: email })
     })
 
     if (!ok) {

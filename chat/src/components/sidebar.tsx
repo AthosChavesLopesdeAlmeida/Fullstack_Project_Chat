@@ -55,7 +55,7 @@ const Sidebar = () => {
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-[#242739]"
               >
                 <Image
-                  src={contact.pfp !== undefined ? contact.pfp : 'https://img.magnific.com/free-vector/user-circles-set_78370-4704.jpg?semt=ais_hybrid&w=740&q=80'}
+                  src={contact.pfp !== undefined ? contact.pfp : "https://img.magnific.com/free-vector/user-circles-set_78370-4704.jpg?semt=ais_hybrid&w=740&q=80"}
                   alt=""
                   width={40}
                   height={40}
