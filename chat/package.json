@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "dev:socket": "tsx watch server/index.ts",
+    "dev:socket": "tsx watch src/server/index.ts",
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:socket\"",
     "build": "next build",
     "start": "next start",
