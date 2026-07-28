@@ -23,43 +23,43 @@ export async function GET (req: NextRequest) {
   return NextResponse.json(formatted, {status: 200})
 }
 
-export async function POST (req: NextRequest) {
-  const { contactEmail } = await req.json()
+export async function POST(req: NextRequest) {
   const user = getUserFromRequest(req)
-  
   if (!user) {
-    return NextResponse.json({message: 'Não autenticado'}, {status: 401})
+    return NextResponse.json({ message: 'Não autenticado' }, { status: 401 })
   }
-  
+
+  const { contactEmail } = await req.json()
+
   if (!contactEmail) {
     return NextResponse.json({ message: 'Email é obrigatório' }, { status: 400 })
   }
 
   const ownerId = user.userId
-  
+
   const contactUser = await prisma.user.findUnique({
-    where: {email: contactEmail}
+    where: { email: contactEmail }
   })
+
   if (!contactUser) {
-    return NextResponse.json({message: 'Usuário não encontrado'}, {status: 404})
+    return NextResponse.json({ message: 'Usuário não encontrado' }, { status: 404 })
   }
 
   if (contactUser.id === ownerId) {
-    return NextResponse.json({ message: "Você não pode adicionar a si mesmo como um contato" }, { status: 400 })
+    return NextResponse.json({ message: 'Você não pode adicionar a si mesmo como um contato' }, { status: 400 })
   }
 
   try {
-    const contact = await prisma.contact.create({
-      data: { ownerId, contactId: contactUser.id }
+    await prisma.contact.createMany({
+      data: [
+        { ownerId, contactId: contactUser.id },
+        { ownerId: contactUser.id, contactId: ownerId }
+      ],
+      skipDuplicates: true
     })
-    return NextResponse.json(contact, { status: 201 })
-    
+
+    return NextResponse.json({ message: 'Contato adicionado com sucesso' }, { status: 201 })
   } catch (err: unknown) {
-
-    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
-      return NextResponse.json({ message: 'Contato já adicionado' }, { status: 409 })
-    }
-
     return NextResponse.json({ message: 'Erro ao adicionar contato' }, { status: 500 })
   }
 }
