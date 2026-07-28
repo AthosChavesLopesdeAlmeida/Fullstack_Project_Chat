@@ -54,13 +54,13 @@ const Sidebar = () => {
                 href={`/contact/${contact.id}`}
                 className="flex items-center gap-3 rounded-lg px-3 py-2 transition-colors hover:bg-[#242739]"
               >
-                <Image
-                  src={contact.pfp !== undefined ? contact.pfp : "https://img.magnific.com/free-vector/user-circles-set_78370-4704.jpg?semt=ais_hybrid&w=740&q=80"}
-                  alt=""
-                  width={40}
-                  height={40}
-                  className="h-10 w-10 rounded-full object-cover ring-2 ring-[#2DD4BF]/30"
-                />
+              <Image
+                src={contact.pfp ? contact.pfp : 'https://img.magnific.com/free-vector/user-circles-set_78370-4704.jpg?semt=ais_hybrid&w=740&q=80'}
+                alt=""
+                width={40}
+                height={40}
+                className="h-10 w-10 rounded-full object-cover ring-2 ring-[#2DD4BF]/30"
+              />
                 <p className="truncate text-sm font-medium text-[#EDEDF4]">{contact.name}</p>
               </Link>
             </li>

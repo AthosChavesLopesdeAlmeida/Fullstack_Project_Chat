@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 import { SOCKET_PORT, CLIENT_URL } from './config'

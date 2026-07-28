@@ -59,7 +59,7 @@ const Page = () => {
     <div className="flex min-h-screen items-center justify-center bg-[#14151F] px-4">
       <div className="w-full max-w-sm rounded-2xl border border-[#2A2C3D] bg-[#1A1B26] p-8 text-center">
         <Image
-          src={userData?.pfpUrl !== undefined ? userData.pfpUrl : 'https://img.magnific.com/free-vector/user-circles-set_78370-4704.jpg?semt=ais_hybrid&w=740&q=80'}
+          src={userData?.pfpUrl ? userData.pfpUrl : 'https://img.magnific.com/free-vector/user-circles-set_78370-4704.jpg?semt=ais_hybrid&w=740&q=80'}
           alt=""
           width={88}
           height={88}
